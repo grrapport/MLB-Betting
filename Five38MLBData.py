@@ -1,8 +1,5 @@
 class Five38MlbDataPoint:
     def __init__(self,row):
-        #date, season, neutral, playoff, team1, team2, elo1_pre, elo2_pre, elo_prob1, elo_prob2, elo1_post, elo2_post, rating1_pre,
-        # rating2_pre, pitcher1, pitcher2, pitcher1_rgs, pitcher2_rgs,
-    #       pitcher1_adj, pitcher2_adj, rating_prob1, rating_prob2, rating1_post, rating2_post, score1, score2
         self.date = row[0]
         self.season = row[1]
         self.neutral = row[2]
@@ -31,5 +28,3 @@ class Five38MlbDataPoint:
         self.rating2_post = row[23]
         self.score1 = row[24]
         self.score2 = row[25]
-
-

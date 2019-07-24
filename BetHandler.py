@@ -18,18 +18,27 @@ class MoneylineBet:
             self.odds_decimal = convert_odds_to_decimal(self.odds)
 
     def outcome(self):
+        amount = float(self.bet)*self.odds_decimal
         if self.home_score == self.away_score:
+            print("Game was a tie, no action")
             return 0.0
         if self.home:
             if self.home_score > self.away_score:
-                return float(self.bet)*self.odds_decimal
+                print("Bet wins "+str(amount))
+                return amount
             else:
+                print("Bet loses " + str(self.bet))
                 return -float(self.bet)
         else:
             if self.away_score > self.home_score:
-                return float(self.bet)*self.odds_decimal
+                print("Bet wins "+str(amount))
+                return amount
             else:
+                print("Bet loses "+str(self.bet))
                 return -float(self.bet)
+
+    def output(self):
+        print(self.odds_obj.date+": Bet "+str(self.bet)+" on "+self.team+" at odds of "+str(self.odds))
 
 
 def convert_odds_to_decimal(odds):
