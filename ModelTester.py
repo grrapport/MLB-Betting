@@ -22,7 +22,6 @@ with open('mlb2018endinglines.json') as lines:
 
 bankroll = 10000.00
 for odd in betting_odds:
-    time.sleep(1)
     game_match = None
     bet_obj = None
     if bankroll <= 0:
@@ -34,7 +33,7 @@ for odd in betting_odds:
             break
     if game_match is None:
         continue
-    if float(game_match.rating_prob1) > odd.home_team_imp_prob:
+    if float(game_match.rating_prob1) - odd.home_team_imp_prob > 0.12:
         prob_diff = float(game_match.rating_prob1) - odd.home_team_imp_prob
         amount = prob_diff*bankroll
         bet_obj = BetHandler.MoneylineBet(odd, amount, True, game_match.score1, game_match.score2)
@@ -43,7 +42,7 @@ for odd in betting_odds:
         bankroll += bet_obj.outcome()
         print("Bankroll is now "+str(bankroll))
         continue
-    if float(game_match.rating_prob2) > odd.away_team_imp_prob:
+    if float(game_match.rating_prob2) - odd.away_team_imp_prob > 0.12:
         prob_diff = float(game_match.rating_prob2) - odd.away_team_imp_prob
         amount = prob_diff*bankroll
         bet_obj = BetHandler.MoneylineBet(odd, amount, False, game_match.score1, game_match.score2)
