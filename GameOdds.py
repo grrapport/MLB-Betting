@@ -9,37 +9,39 @@ class GameOdds:
         self.date = ""
         self.home_team = ""
         self.away_team = ""
-        self.home_team_odds = 0
-        self.away_team_odds = 0
+        self.home_team_current_odds_avg = 0
+        self.away_team_current_odds_avg = 0
+        self.home_team_opening_odds_avg = 0
+        self.away_team_opening_odds_avg = 0
         self.home_team_imp_prob = 0
         self.away_team_imp_prob = 0
-        self.get_team_odds()
+        self.odds_by_bookmaker = []
+        soup = bs4.BeautifulSoup(self.html)
+        self.game_href = soup.find(href=True)['href']
+        self.base_url = "https://www.oddsportal.com"
+        self.chrome_options = Options()
+        self.chrome_options.add_argument("--headless")
+        self.chrome_options.add_argument("--window-size=1920x1080")
+        self.driver = webdriver.Chrome(options=self.chrome_options, executable_path='./chromedriver')
+        self.driver.get(self.base_url + self.game_href)
+        self.driver.get("https://www.oddsportal.com/set-timezone/11/")
+        self.driver.get(self.base_url + self.game_href)
+        self.get_team_current_odds_avg()
         self.get_teams_and_date()
         delattr(self, 'html')
 
-    def get_team_odds(self):
+    def get_team_current_odds_avg(self):
         first_odd_index = self.html.find("odds_text")
         odds_only = self.html[first_odd_index:]
-        self.home_team_odds = int(odds_only[11:odds_only.find("</a>")])
+        self.home_team_current_odds_avg = int(odds_only[11:odds_only.find("</a>")])
         second_odd_index = odds_only[1:].find("odds_text")
         odds_only2 = odds_only[second_odd_index + 1:]
-        self.away_team_odds = int(odds_only2[11:odds_only2.find("</a>")])
-        self.home_team_imp_prob = odds_to_imp_prob(self.home_team_odds)
-        self.away_team_imp_prob = odds_to_imp_prob(self.away_team_odds)
+        self.away_team_current_odds_avg = int(odds_only2[11:odds_only2.find("</a>")])
+        self.home_team_imp_prob = odds_to_imp_prob(self.home_team_current_odds_avg)
+        self.away_team_imp_prob = odds_to_imp_prob(self.away_team_current_odds_avg)
 
     def get_teams_and_date(self):
-        soup = bs4.BeautifulSoup(self.html)
-        game_href = soup.find(href=True)['href']
-        base_url = "https://www.oddsportal.com"
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--window-size=1920x1080")
-        driver = webdriver.Chrome(options=chrome_options, executable_path='./chromedriver')
-        driver.get(base_url+game_href)
-        driver.get("https://www.oddsportal.com/set-timezone/11/")
-        driver.get(base_url + game_href)
-        game_html = driver.page_source
-        driver.close()
+        game_html = self.driver.page_source
         new_soup = bs4.BeautifulSoup(game_html)
         teams = new_soup.find('h1').text.split("-")
         self.home_team = teams[0].replace("-", "").strip()
@@ -50,7 +52,17 @@ class GameOdds:
         self.date = date_untrimmed[1].replace(",", "").strip()
 
     def output(self):
-        return self.date+"  "+self.home_team+":"+str(self.home_team_odds)+"  "+str(self.home_team_imp_prob)+"     "+self.away_team+":"+str(self.away_team_odds)+"  "+str(self.away_team_imp_prob)
+        return self.date + "  " + self.home_team + ":" + str(self.home_team_current_odds_avg) + "  " + str(self.home_team_imp_prob) + "     " + self.away_team + ":" + str(self.away_team_current_odds_avg) + "  " + str(self.away_team_imp_prob)
+
+
+class BookmakerOdds:
+    def __init__(self, bookmaker, opening_home, opening_away, time, current_home, current_away):
+        self.bookmaker = bookmaker
+        self.opening_home = opening_home
+        self.opening_away = opening_away
+        self.current_odd_time = time
+        self.current_home = current_home
+        self.current_away = current_away
 
 
 def odds_to_imp_prob(odds):
@@ -132,3 +144,5 @@ def convert_team_to_five38name(name):
     else:
         print("No name match found for "+name)
         return ""
+
+
