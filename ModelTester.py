@@ -26,6 +26,7 @@ total_bets = 0
 total_wagered = 0
 sharp_money = 0
 sharp_bets = 0
+won_bets = 0
 for odd in betting_odds:
     game_match = None
     bet_obj = None
@@ -49,17 +50,17 @@ for odd in betting_odds:
             total_wagered += amount
             best_opening_odd = odd.get_best_opening_odd(True)
             bet_obj = BetHandler.MoneylineBet(best_opening_odd.opening_home, amount, True, game_match.score1, game_match.score2)
+            if game_match.score1 > game_match.score2:
+                won_bets += 1
             print("Betting on "+odd.home_team+" on "+odd.date+" at "+best_opening_odd.bookmaker)
             bet_obj.output()
             print("Perceived edge is " + str(prob_diff * 100) + "%")
             bankroll += bet_obj.outcome()
             print("Bankroll is now " + str(bankroll))
             total_bets += 1
-            if odd.get_best_opening_odd(True) > odd.get_best_current_odd(True):
+            if odd.get_best_opening_odd(True).opening_home > odd.get_best_current_odd(True).current_home:
                 sharp_bets += 1
                 sharp_money += amount
-            continue
-        else:
             continue
     else:
         if away_adv > goal_adv:
@@ -69,16 +70,16 @@ for odd in betting_odds:
             best_opening_odd = odd.get_best_opening_odd(False)
             bet_obj = BetHandler.MoneylineBet(best_opening_odd.opening_away, amount, False, game_match.score1, game_match.score2)
             print("Betting on " + odd.away_team + " on " + odd.date+" at "+best_opening_odd.bookmaker)
+            if game_match.score2 > game_match.score1:
+                won_bets += 1
             bet_obj.output()
             print("Perceived edge is " + str(prob_diff * 100) + "%")
             bankroll += bet_obj.outcome()
             print("Bankroll is now " + str(bankroll))
             total_bets += 1
-            if odd.get_best_opening_odd(True) > odd.get_best_current_odd(True):
+            if odd.get_best_opening_odd(False).opening_away > odd.get_best_current_odd(False).current_away:
                 sharp_bets += 1
                 sharp_money += amount
-            continue
-        else:
             continue
 
     # if float(game_match.rating_prob1) - odd.home_team_imp_prob > 0.12:
@@ -101,6 +102,7 @@ for odd in betting_odds:
     #     continue
 print("Ending bankroll: "+str(bankroll))
 print("Total bets placed: "+str(total_bets))
+print("Percentage of bets won: "+str(100*(won_bets/total_bets))+"%")
 print("Percentage of sharp bets: "+str(100*(sharp_bets/total_bets))+"%")
 print("Total amount wagered: "+str(total_wagered))
 print("Percentage of sharp money: "+str(100*(sharp_money/total_wagered))+"%")
