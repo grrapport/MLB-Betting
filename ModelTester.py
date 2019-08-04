@@ -21,6 +21,11 @@ with open('mlb2018endinglines.json') as lines:
     betting_odds = jsonpickle.decode(lines.read())
 
 bankroll = 10000.00
+goal_adv = 0.10
+total_bets = 0
+total_wagered = 0
+sharp_money = 0
+sharp_bets = 0
 for odd in betting_odds:
     game_match = None
     bet_obj = None
@@ -33,22 +38,71 @@ for odd in betting_odds:
             break
     if game_match is None:
         continue
-    if float(game_match.rating_prob1) - odd.home_team_imp_prob > 0.12:
-        prob_diff = float(game_match.rating_prob1) - odd.home_team_imp_prob
-        amount = prob_diff*bankroll
-        bet_obj = BetHandler.MoneylineBet(odd, amount, True, game_match.score1, game_match.score2)
-        bet_obj.output()
-        print("Perceived edge is "+str(prob_diff*100)+"%")
-        bankroll += bet_obj.outcome()
-        print("Bankroll is now "+str(bankroll))
-        continue
-    if float(game_match.rating_prob2) - odd.away_team_imp_prob > 0.12:
-        prob_diff = float(game_match.rating_prob2) - odd.away_team_imp_prob
-        amount = prob_diff*bankroll
-        bet_obj = BetHandler.MoneylineBet(odd, amount, False, game_match.score1, game_match.score2)
-        bet_obj.output()
-        print("Perceived edge is "+str(prob_diff*100)+"%")
-        bankroll += bet_obj.outcome()
-        print("Bankroll is now " + str(bankroll))
-        continue
-print(str(bankroll))
+    opening_home_imp_prob = GameOdds.odds_to_imp_prob(odd.get_best_opening_odd(True).opening_home)
+    opening_away_imp_prob = GameOdds.odds_to_imp_prob(odd.get_best_opening_odd(False).opening_away)
+    home_adv = float(game_match.rating_prob1) - opening_home_imp_prob
+    away_adv = float(game_match.rating_prob2) - opening_away_imp_prob
+    if home_adv > away_adv:
+        if home_adv > goal_adv:
+            prob_diff = float(game_match.rating_prob1) - opening_home_imp_prob
+            amount = prob_diff * bankroll
+            total_wagered += amount
+            best_opening_odd = odd.get_best_opening_odd(True)
+            bet_obj = BetHandler.MoneylineBet(best_opening_odd.opening_home, amount, True, game_match.score1, game_match.score2)
+            print("Betting on "+odd.home_team+" on "+odd.date+" at "+best_opening_odd.bookmaker)
+            bet_obj.output()
+            print("Perceived edge is " + str(prob_diff * 100) + "%")
+            bankroll += bet_obj.outcome()
+            print("Bankroll is now " + str(bankroll))
+            total_bets += 1
+            if odd.get_best_opening_odd(True) > odd.get_best_current_odd(True):
+                sharp_bets += 1
+                sharp_money += amount
+            continue
+        else:
+            continue
+    else:
+        if away_adv > goal_adv:
+            prob_diff = float(game_match.rating_prob2) - opening_away_imp_prob
+            amount = prob_diff * bankroll
+            total_wagered += amount
+            best_opening_odd = odd.get_best_opening_odd(False)
+            bet_obj = BetHandler.MoneylineBet(best_opening_odd.opening_away, amount, False, game_match.score1, game_match.score2)
+            print("Betting on " + odd.away_team + " on " + odd.date+" at "+best_opening_odd.bookmaker)
+            bet_obj.output()
+            print("Perceived edge is " + str(prob_diff * 100) + "%")
+            bankroll += bet_obj.outcome()
+            print("Bankroll is now " + str(bankroll))
+            total_bets += 1
+            if odd.get_best_opening_odd(True) > odd.get_best_current_odd(True):
+                sharp_bets += 1
+                sharp_money += amount
+            continue
+        else:
+            continue
+
+    # if float(game_match.rating_prob1) - odd.home_team_imp_prob > 0.12:
+    #     prob_diff = float(game_match.rating_prob1) - odd.home_team_imp_prob
+    #     amount = prob_diff*bankroll
+    #     bet_obj = BetHandler.MoneylineBet(odd, amount, True, game_match.score1, game_match.score2)
+    #     bet_obj.output()
+    #     print("Perceived edge is "+str(prob_diff*100)+"%")
+    #     bankroll += bet_obj.outcome()
+    #     print("Bankroll is now "+str(bankroll))
+    #     continue
+    # if float(game_match.rating_prob2) - odd.away_team_imp_prob > 0.12:
+    #     prob_diff = float(game_match.rating_prob2) - odd.away_team_imp_prob
+    #     amount = prob_diff*bankroll
+    #     bet_obj = BetHandler.MoneylineBet(odd, amount, False, game_match.score1, game_match.score2)
+    #     bet_obj.output()
+    #     print("Perceived edge is "+str(prob_diff*100)+"%")
+    #     bankroll += bet_obj.outcome()
+    #     print("Bankroll is now " + str(bankroll))
+    #     continue
+print("Ending bankroll: "+str(bankroll))
+print("Total bets placed: "+str(total_bets))
+print("Percentage of sharp bets: "+str(100*(sharp_bets/total_bets))+"%")
+print("Total amount wagered: "+str(total_wagered))
+print("Percentage of sharp money: "+str(100*(sharp_money/total_wagered))+"%")
+
+

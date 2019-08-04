@@ -31,6 +31,8 @@ class GameOdds:
         self.get_odds_by_bookmaker()
         self.get_opening_odds_avg()
         delattr(self, 'html')
+        delattr(self, 'chrome_options')
+        delattr(self, 'driver')
 
     def get_team_current_odds_avg(self):
         first_odd_index = self.html.find("odds_text")
@@ -67,16 +69,24 @@ class GameOdds:
                 actions.move_to_element(odd_columns[0])
                 actions.perform()
                 tool_tip_text_home = self.driver.find_element_by_id("tooltipdiv").text
-                current_odd_time = " ".join(tool_tip_text_home.split(" ")[0:3])
-                home_odd_opening = float(tool_tip_text_home.split(":")[3].split(" ")[1])
+                if tool_tip_text_home.startswith("Opening"):
+                    current_odd_time = self.date
+                    home_odd_opening = float(tool_tip_text_home.split(":")[2].split(" ")[1])
+                else:
+                    current_odd_time = " ".join(tool_tip_text_home.split(" ")[0:3])
+                    home_odd_opening = float(tool_tip_text_home.split(":")[3].split(" ")[1])
                 away_odd_current = float(odd_columns[1].text)
                 actions.move_to_element(odd_columns[1])
                 actions.perform()
                 tool_tip_text_away = self.driver.find_element_by_id("tooltipdiv").text
-                away_odd_opening = float(tool_tip_text_home.split(":")[3].split(" ")[1])
+                if tool_tip_text_away.startswith("Opening"):
+                    away_odd_opening = float(tool_tip_text_away.split(":")[2].split(" ")[1])
+                else:
+                    away_odd_opening = float(tool_tip_text_away.split(":")[3].split(" ")[1])
                 self.odds_by_bookmaker.append(BookmakerOdds(book_name, home_odd_opening, away_odd_opening, current_odd_time, home_odd_current, away_odd_current))
             except Exception as e:
                 print("Error Message: " + str(e))
+                print(book_name)
                 continue
 
     def get_opening_odds_avg(self):
@@ -84,12 +94,41 @@ class GameOdds:
         home_tot = 0.0
         away_tot = 0.0
         for odd in self.odds_by_bookmaker:
+            if odd.opening_home is None or odd.opening_away is None or odd.opening_home == 0.0 or odd.opening_away == 0.0:
+                continue
             num += 1
+            home_tot += odds_to_imp_prob(odd.opening_home)
+            away_tot += odds_to_imp_prob(odd.opening_away)
+        self.home_team_opening_odds_avg = imp_prob_to_odds(home_tot/num)
+        self.away_team_opening_odds_avg = imp_prob_to_odds(away_tot/num)
+        return
 
+    def get_best_opening_odd(self, home):
+        best_odd = BookmakerOdds("default", -100000.0, -100000.0, self.date, -100000.0, -100000.0)
+        if home:
+            for odd in self.odds_by_bookmaker:
+                if odd.opening_home > best_odd.opening_home:
+                    best_odd = odd
+        else:
+            for odd in self.odds_by_bookmaker:
+                if odd.opening_away > best_odd.opening_away:
+                    best_odd = odd
+        return best_odd
 
+    def get_best_current_odd(self, home):
+        best_odd = BookmakerOdds("default", -100000.0, -100000.0, self.date, -100000.0, -100000.0)
+        if home:
+            for odd in self.odds_by_bookmaker:
+                if odd.current_home > best_odd.current_home:
+                    best_odd = odd
+        else:
+            for odd in self.odds_by_bookmaker:
+                if odd.current_away > best_odd.current_away:
+                    best_odd = odd
+        return best_odd
 
     def output(self):
-        return self.date + "  " + self.home_team + ":" + str(self.home_team_current_odds_avg) + "  " + str(self.home_team_imp_prob_current) + "     " + self.away_team + ":" + str(self.away_team_current_odds_avg) + "  " + str(self.away_team_imp_prob_current)
+        return self.date + "  " + self.home_team + ":" + str(self.home_team_current_odds_avg)+"  Opened at "+str(self.home_team_opening_odds_avg) + "  " + str(self.home_team_imp_prob_current) + "     " + self.away_team + ":" + str(self.away_team_current_odds_avg) + "  " + str(self.away_team_imp_prob_current)+"  opened at: "+str(self.away_team_opening_odds_avg)
 
 
 class BookmakerOdds:
@@ -118,7 +157,7 @@ def odds_to_imp_prob(odds):
 
 
 def imp_prob_to_odds(prob):
-    decimal_odds = 100/float(prob)
+    decimal_odds = 1.0/float(prob)
     if decimal_odds >= 2.0:
         return (decimal_odds - 1.0)*100
     if decimal_odds < 2.0:
