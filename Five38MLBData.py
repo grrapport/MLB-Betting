@@ -1,5 +1,5 @@
 class Five38MlbDataPoint:
-    def __init__(self,row):
+    def __init__(self, row):
         self.date = row[0]
         self.season = row[1]
         self.neutral = row[2]

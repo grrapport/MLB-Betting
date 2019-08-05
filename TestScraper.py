@@ -4,9 +4,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import jsonpickle
 
-url_base = "https://www.oddsportal.com/baseball/usa/mlb-2018/results/#/page/"
+url_base = "https://www.oddsportal.com/baseball/usa/mlb-2017/results/#/page/"
 list_game_odds = []
-for x in range(1, 49):
+for x in range(1, 50):
     try:
         url = url_base+str(x)+"/"
         chrome_options = Options()
@@ -15,10 +15,12 @@ for x in range(1, 49):
         driver = webdriver.Chrome(options=chrome_options, executable_path='./chromedriver')
         driver.implicitly_wait(5)
         driver.get(url)
+        driver.get("https://www.oddsportal.com/set-timezone/11/")
+        driver.get(url)
         html = driver.page_source
         driver.close()
         soup = bs4.BeautifulSoup(html)
-        allTR = soup.findAll("tr", {"class": "odd deactivate"})
+        allTR = soup.findAll("tr", {"class": "deactivate"})
         for tr in allTR:
             if tr.find("odds_text") != "none":
                 try:
@@ -34,6 +36,6 @@ for x in range(1, 49):
         print("Error Message: "+str(e))
         break
 
-f = open("mlb2018endinglines.json", "w+")
+f = open("mlb2017endinglines.json", "w+")
 f.write(jsonpickle.encode(list_game_odds))
 f.close()
