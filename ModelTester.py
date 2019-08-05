@@ -20,14 +20,17 @@ with open('mlb_elo_2018.csv') as csv_file:
 with open('mlb2018endinglines.json') as lines:
     betting_odds = jsonpickle.decode(lines.read())
 
+betting_odds.reverse()
+
 bankroll = 10000.00
-goal_adv = 0.10
+goal_adv = 0.0
 total_bets = 0
 total_wagered = 0
 sharp_money = 0
 sharp_bets = 0
 won_bets = 0
 for odd in betting_odds:
+    #time.sleep(1)
     game_match = None
     bet_obj = None
     if bankroll <= 0:
@@ -61,6 +64,7 @@ for odd in betting_odds:
             if odd.get_best_opening_odd(True).opening_home > odd.get_best_current_odd(True).current_home:
                 sharp_bets += 1
                 sharp_money += amount
+            print("")
             continue
     else:
         if away_adv > goal_adv:
@@ -80,6 +84,7 @@ for odd in betting_odds:
             if odd.get_best_opening_odd(False).opening_away > odd.get_best_current_odd(False).current_away:
                 sharp_bets += 1
                 sharp_money += amount
+            print("")
             continue
 
     # if float(game_match.rating_prob1) - odd.home_team_imp_prob > 0.12:
@@ -100,6 +105,8 @@ for odd in betting_odds:
     #     bankroll += bet_obj.outcome()
     #     print("Bankroll is now " + str(bankroll))
     #     continue
+print("")
+print("*****************************************************")
 print("Ending bankroll: "+str(bankroll))
 print("Total bets placed: "+str(total_bets))
 print("Percentage of bets won: "+str(100*(won_bets/total_bets))+"%")

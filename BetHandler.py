@@ -4,9 +4,7 @@ import GameOdds
 class MoneylineBet:
     def __init__(self, game_odds, bet_size, home, home_score, away_score):
         self.odds = game_odds
-        print(self.odds)
         self.odds_decimal = convert_odds_to_decimal(self.odds)
-        print(self.odds_decimal)
         self.bet = bet_size
         self.home_score = home_score
         self.away_score = away_score
@@ -14,13 +12,11 @@ class MoneylineBet:
 
     def outcome(self):
         amount = float(self.bet)*(self.odds_decimal-1)
-        print(amount)
         if self.home_score == self.away_score:
             print("Game was a tie, no action")
             return 0.0
         if self.home:
             if self.home_score > self.away_score:
-                print(amount)
                 print("Bet wins "+str(amount))
                 return amount
             else:
