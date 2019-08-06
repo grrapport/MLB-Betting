@@ -4,9 +4,10 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import jsonpickle
 
-url_base = "https://www.oddsportal.com/baseball/usa/mlb-2016/results/#/page/"
+#url_base = "https://www.oddsportal.com/baseball/usa/mlb-2016/results/#/page/"
+url_base = "https://www.oddsportal.com/baseball/usa/mlb/results/#/page/"
 list_game_odds = []
-for x in range(1, 50):
+for x in range(2, 34):
     try:
         url = url_base+str(x)+"/"
         chrome_options = Options()

@@ -7,7 +7,7 @@ import BetHandler
 import time
 
 prediction_data = []
-with open('mlb_elo_2018.csv') as csv_file:
+with open('mlb_elo.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
     for row in csv_reader:
@@ -17,10 +17,10 @@ with open('mlb_elo_2018.csv') as csv_file:
         else:
             prediction_data.append(Five38MLBData.Five38MlbDataPoint(row))
 
-# with open('mlb2017endinglines.json') as lines:
-#     betting_odds2017 = jsonpickle.decode(lines.read())
-#
-# betting_odds2017.reverse()
+with open('mlb2017endinglines.json') as lines:
+    betting_odds2017 = jsonpickle.decode(lines.read())
+
+betting_odds2017.reverse()
 
 with open('mlb2018endinglines.json') as lines:
     betting_odds2018 = jsonpickle.decode(lines.read())
@@ -31,7 +31,7 @@ betting_odds2018.reverse()
 betting_odds = betting_odds2018
 
 bankroll = 10000.00
-goal_adv = 0.00
+goal_adv = 0.06
 total_bets = 0
 total_wagered = 0
 sharp_money = 0
@@ -46,8 +46,6 @@ for odd in betting_odds:
     odd_date = datetime.datetime.strptime(odd.date, '%d %b  %Y').date()
     for game in prediction_data:
         if datetime.datetime.strptime(game.date, '%Y-%m-%d').date() == odd_date and GameOdds.convert_team_to_five38name(odd.home_team) == game.home_team:
-        #if datetime.datetime.strptime(game.date, '%m/%d/%y').date() == odd_date and GameOdds.convert_team_to_five38name(
-                odd.home_team) == game.home_team:
             game_match = game
             break
     if game_match is None:
@@ -60,7 +58,7 @@ for odd in betting_odds:
         if home_adv > goal_adv:
             prob_diff = float(game_match.rating_prob1) - opening_home_imp_prob
             best_opening_odd = odd.get_best_opening_odd(True)
-            amount = prob_diff * bankroll
+            amount = prob_diff * bankroll/10
             total_wagered += amount
             bet_obj = BetHandler.MoneylineBet(best_opening_odd.opening_home, amount, True, game_match.score1, game_match.score2)
             if game_match.score1 > game_match.score2:
@@ -80,7 +78,7 @@ for odd in betting_odds:
         if away_adv > goal_adv:
             prob_diff = float(game_match.rating_prob2) - opening_away_imp_prob
             best_opening_odd = odd.get_best_opening_odd(False)
-            amount = prob_diff * bankroll
+            amount = prob_diff * bankroll/10
             bet_obj = BetHandler.MoneylineBet(best_opening_odd.opening_away, amount, False, game_match.score1, game_match.score2)
             print("Betting on " + odd.away_team + " on " + odd.date+" at "+best_opening_odd.bookmaker)
             if game_match.score2 > game_match.score1:
