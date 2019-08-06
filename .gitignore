@@ -106,3 +106,6 @@ venv.bak/
 
 #headless browers
 chromedriver
+
+#Data files from 538
+mlb_elo.csv
