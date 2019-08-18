@@ -39,8 +39,8 @@ betting_odds2018.reverse()
 
 betting_odds = betting_odds2016 + betting_odds2017 + betting_odds2018
 
-bankroll = 10000.00
-goal_adv = 0.05
+bankroll = 500.00
+goal_adv = 0.075
 total_bets = 0
 total_wagered = 0.0
 sharp_money = 0.0
