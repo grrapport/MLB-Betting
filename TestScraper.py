@@ -4,7 +4,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import jsonpickle
 
-url_base = "https://www.oddsportal.com/baseball/usa/mlb-2017/results/#/page/"
+url_base = "https://www.oddsportal.com/baseball/usa/mlb-2014/results/#/page/"
+#url_base = "https://www.oddsportal.com/baseball/usa/mlb/results/#/page/"
 list_game_odds = []
 for x in range(1, 50):
     try:
@@ -36,6 +37,6 @@ for x in range(1, 50):
         print("Error Message: "+str(e))
         break
 
-f = open("mlb2017endinglines.json", "w+")
+f = open("mlb2014endinglines.json", "w+")
 f.write(jsonpickle.encode(list_game_odds))
 f.close()
