@@ -2,6 +2,8 @@
 # Getting started:
 After pulling the repo, you will need to download the chromedriver for the version of Chrome that is running on your computer. You should be able to download this from google. Place is at the root directory of the project. It's already in the git.ignore, so no worries there. 
 
+FiveThirtyEight Data is available at https://github.com/fivethirtyeight/data/tree/master/mlb-elo and you need the mlb_elo.csv for ModelTester.py and mlb_elo_latest.csv for GetTargetLines.py.
+
 Python 3.7 is required for this project.
 The following packages are dependencies for this project, and can be installed with pip:
   * BeautifulSoup4
