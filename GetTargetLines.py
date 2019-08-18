@@ -9,7 +9,7 @@ five38_url = "https://projects.fivethirtyeight.com/mlb-api/mlb_elo_latest.csv"
 five38_response = requests.get(five38_url)
 
 prediction_data = []
-target_adv = 0.0
+target_adv = 0.075
 tomorrow = datetime.date.today() + datetime.timedelta(days=1)
 with open('mlb_elo_latest.csv', 'wb') as file:
     file.write(five38_response.content)

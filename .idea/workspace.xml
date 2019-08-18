@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7bf452a-c6cd-4f79-80fb-cf3bcafe5a07" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/GetTargetLines.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ModelTester.py" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTester.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mlb2014endinglines.json" beforeDir="false" afterPath="$PROJECT_DIR$/mlb2014endinglines.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GetTargetLines.py" beforeDir="false" afterPath="$PROJECT_DIR$/GetTargetLines.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -73,7 +70,7 @@
         <entry file="file://$PROJECT_DIR$/GetTargetLines.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="165">
-              <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
+              <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -191,9 +188,7 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/MlbTwitterBot.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/MlbTwitterBot.py" />
     <entry file="file://$PROJECT_DIR$/BetHandler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="540">
@@ -241,7 +236,7 @@
     <entry file="file://$PROJECT_DIR$/GetTargetLines.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
-          <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
+          <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
