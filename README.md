@@ -14,6 +14,8 @@ TestScraper.py - scraps odds off oddsportal, runs on whatever season you specify
 
 ModelTester.py - simulates the outcome of your bets and games. Right now it just runs off the fivethirtyeight.com prediction model
 
+GetTargetLines.py - Gets the lines you should be looking for to bet for the next days slate of games. You can change the advantage you're looking by editing the script. I recommend 7.5% for optimizing sharpness on the lines, but really, you will bet on around 2.5% of games using that strategy. You can go as low as 5% and be sharp, but not as often.
+
 The other .py files in the project are classes that get called from these two files.
 
 # Nomenclature, Variable Styling, and Design Decisions in project
