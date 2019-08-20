@@ -4,17 +4,20 @@ import datetime
 import GameOdds
 import requests
 import xml.etree.ElementTree as ET
+import BookMakerData
 
 
 def get_bookmaker_odds(response):
     root = ET.fromstring(response)
+    games = []
     for child in root.findall("./Leagues/league"):
         if child.attrib['IdLeague'] == "5":
             mlb_elem = child
             break
 
     for child in mlb_elem.findall("./game"):
-        print(child.attrib)
+        games.append(BookMakerData.BmMlbGame(child))
+    return games
 
 
 five38_url = "https://projects.fivethirtyeight.com/mlb-api/mlb_elo_latest.csv"
@@ -22,6 +25,7 @@ bookmaker_url = "http://lines.bookmaker.eu/"
 
 prediction_data = []
 available_lines = []
+notified = []
 
 target_adv = 0.075
 tomorrow = datetime.date.today() + datetime.timedelta(days=1)
@@ -45,7 +49,22 @@ print("*********************************************")
 print("")
 
 bookmaker_response = requests.get(bookmaker_url)
-get_bookmaker_odds(bookmaker_response.content)
+available_lines = get_bookmaker_odds(bookmaker_response.content)
+
+
+for line in available_lines:
+    game_match = None
+    for game in prediction_data:
+        if datetime.datetime.strptime(game.date, '%Y-%m-%d').date() == line.date and GameOdds.convert_team_to_five38name(line.home_team) == game.home_team:
+            game_match = game
+            break
+    if game_match is None:
+        continue
+    home_imp_prob = GameOdds.odds_to_imp_prob(line.home_odds)
+    away_imp_prob = GameOdds.odds_to_imp_prob(line.away_odds)
+    home_adv = float(game_match.rating_prob1) - home_imp_prob
+    away_adv = float(game_match.rating_prob2) - away_imp_prob
+
 
 
 for prediction in prediction_data:
@@ -54,3 +73,13 @@ for prediction in prediction_data:
     home_target_line = GameOdds.imp_prob_to_odds(float(prediction.rating_prob1) - target_adv)
     away_target_line = GameOdds.imp_prob_to_odds(float(prediction.rating_prob2) - target_adv)
     print(prediction.home_team+"  " + str(home_target_line)+"              "+prediction.away_team+"  "+str(away_target_line))
+
+
+
+
+
+
+
+
+
+
