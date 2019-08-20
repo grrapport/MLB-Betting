@@ -110,3 +110,6 @@ chromedriver
 #Data files from 538
 mlb_elo.csv
 mlb_elo_latest.csv
+
+#Config files
+email.txt
