@@ -34,6 +34,39 @@ class MoneylineBet:
         print("Bet "+str(self.bet)+" at odds of "+str(self.odds))
 
 
+class BetToMake:
+    def __init__(self, idgm, date, home_tm, away_tm, home, hodds, aodds, kelly, perceived_adv):
+        self.game_id = idgm
+        self.date = date
+        self.home_team = home_tm
+        self.away_team = away_tm
+        self.home = home
+        self.home_odds = hodds
+        self.away_odds = aodds
+        self.kelly_criterion = kelly
+        self.perceived_adv = perceived_adv
+
+    def __lt__(self, other):
+        return self.perceived_adv < other.perceived_adv
+
+    def __eq__(self, other):
+        return self.date == other.date and self.home_team == other.home_team
+
+    def output(self):
+        outstring = ""
+        outstring += str(self.date) +"  "
+        outstring += self.game_id+"  "
+        if self.home:
+            outstring += self.home_team+" over "+self.away_team
+            outstring += " at "+str(self.home_odds)
+        else:
+            outstring += self.away_team + " over " + self.home_team
+            outstring += " at " + str(self.away_odds)
+        outstring += "   Kelly Criterion: "+str(self.kelly_criterion)[0:5]
+        outstring += " Perceived Adv = " + str(self.perceived_adv*100)[0:4]+"%"
+        return outstring
+
+
 def convert_odds_to_decimal(odds):
     if odds > 0:
         return 1.0 + (odds/100)
