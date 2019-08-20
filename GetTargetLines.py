@@ -36,7 +36,7 @@ prediction_data = []
 available_lines = []
 bets_to_make = []
 
-target_adv = 0.075
+target_adv = 0.035
 tomorrow = datetime.date.today() + datetime.timedelta(days=1)
 
 five38_response = requests.get(five38_url)
@@ -71,7 +71,7 @@ for line in available_lines:
     away_adv = float(game_match.rating_prob2) - away_imp_prob
 
     if home_adv > away_adv:
-        if home_adv < 0:
+        if home_adv < target_adv:
             continue
         prob_diff = float(game_match.rating_prob1) - home_imp_prob
         decimal_odds = BetHandler.convert_odds_to_decimal(line.home_odds)
@@ -81,7 +81,7 @@ for line in available_lines:
         bet_to_make = BetHandler.BetToMake(line.game_id, line.date, line.home_team, line.away_team, True, line.home_odds, line.away_odds, kelly, home_adv)
         bets_to_make.append(bet_to_make)
     else:
-        if away_adv < 0:
+        if away_adv < target_adv:
             continue
         prob_diff = float(game_match.rating_prob2) - away_imp_prob
         decimal_odds = BetHandler.convert_odds_to_decimal(line.away_odds)

@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7bf452a-c6cd-4f79-80fb-cf3bcafe5a07" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/BetHandler.py" beforeDir="false" afterPath="$PROJECT_DIR$/BetHandler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookMakerData.py" beforeDir="false" afterPath="$PROJECT_DIR$/BookMakerData.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GetTargetLines.py" beforeDir="false" afterPath="$PROJECT_DIR$/GetTargetLines.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModelTester.py" beforeDir="false" afterPath="$PROJECT_DIR$/ModelTester.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,25 +13,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GetTargetLines.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="93" column="45" selection-start-line="93" selection-start-column="45" selection-end-line="93" selection-end-column="45" />
+            <state relative-caret-position="406">
+              <caret line="83" column="32" selection-start-line="83" selection-start-column="32" selection-end-line="83" selection-end-column="32" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/TestScraper.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="34" column="26" selection-start-line="34" selection-start-column="11" selection-end-line="34" selection-end-column="26" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -47,7 +34,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BetHandler.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="321">
@@ -82,10 +69,10 @@
         <option value="$PROJECT_DIR$/Five38MLBData.py" />
         <option value="$PROJECT_DIR$/TestScraper.py" />
         <option value="$PROJECT_DIR$/MlbTwitterBot.py" />
-        <option value="$PROJECT_DIR$/ModelTester.py" />
         <option value="$PROJECT_DIR$/BookMakerData.py" />
         <option value="$PROJECT_DIR$/BetHandler.py" />
         <option value="$PROJECT_DIR$/GetTargetLines.py" />
+        <option value="$PROJECT_DIR$/ModelTester.py" />
       </list>
     </option>
   </component>
@@ -175,16 +162,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ModelTester.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="82" column="35" lean-forward="true" selection-start-line="82" selection-start-column="35" selection-end-line="82" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BookMakerData.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -212,20 +189,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/GetTargetLines.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="83" column="32" selection-start-line="83" selection-start-column="32" selection-end-line="83" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ModelTester.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="42" column="16" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/BetHandler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="321">
           <caret line="52" column="76" selection-start-line="52" selection-start-column="76" selection-end-line="52" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/GetTargetLines.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="93" column="45" selection-start-line="93" selection-start-column="45" selection-end-line="93" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
