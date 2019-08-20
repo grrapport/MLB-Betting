@@ -46,21 +46,25 @@ class BetToMake:
         self.kelly_criterion = kelly
         self.perceived_adv = perceived_adv
 
+    def __lt__(self, other):
+        return self.perceived_adv < other.perceived_adv
+
+    def __eq__(self, other):
+        return self.date == other.date and self.home_team == other.home_team
+
     def output(self):
         outstring = ""
-        outstring += self.date +"   "
-        outstring += self.game_id
+        outstring += str(self.date) +"  "
+        outstring += self.game_id+"  "
         if self.home:
             outstring += self.home_team+" over "+self.away_team
-            outstring += "at "+str(self.home_odds)
+            outstring += " at "+str(self.home_odds)
         else:
             outstring += self.away_team + " over " + self.home_team
-            outstring += "at " + str(self.away_odds)
-        outstring += "   Kelly Criterion: "+str(self.kelly_criterion)
-        outstring += "Perceived adv = "+ str(self.perceived_adv)
+            outstring += " at " + str(self.away_odds)
+        outstring += "   Kelly Criterion: "+str(self.kelly_criterion)[0:5]
+        outstring += " Perceived Adv = " + str(self.perceived_adv*100)[0:4]+"%"
         return outstring
-
-
 
 
 def convert_odds_to_decimal(odds):
