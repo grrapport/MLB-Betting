@@ -6,6 +6,8 @@ import requests
 import xml.etree.ElementTree as ET
 import BookMakerData
 import BetHandler
+import jsonpickle
+import smtplib
 
 
 def get_kelly_criterion(prob, win_rate):
@@ -34,9 +36,13 @@ bookmaker_url = "http://lines.bookmaker.eu/"
 
 prediction_data = []
 available_lines = []
+notified = []
 bets_to_make = []
 
-target_adv = 0.035
+with open('bets_notified.json') as lines:
+    notified = jsonpickle.decode(lines.read())
+
+target_adv = 0.05
 tomorrow = datetime.date.today() + datetime.timedelta(days=1)
 
 five38_response = requests.get(five38_url)
@@ -92,8 +98,39 @@ for line in available_lines:
         bets_to_make.append(bet_to_make)
 
 sort_bets = sorted(bets_to_make, reverse=True)
+email_text = ""
+email_text += str(datetime.datetime.now())+"\n"
+email_text += "New bets with perceived advantage over "+str(target_adv)+"\n"
+recommended_bets = 0
+
 for bet in sort_bets:
-    print(bet.output())
+    new_bet = True
+    for old in notified:
+        if bet.game_id == old.game_id:
+            new_bet = False
+            break
+    if new_bet:
+        notified.append(bet)
+        recommended_bets += 1
+        email_text += bet.output()+"\n"
+
+with open('email.txt') as txt:
+    test = txt
+if recommended_bets > 0:
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.connect('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+    server.login("actionchase@gmail.com", "lnkyaliduvshwicn")
+    try:
+        server.sendmail("actionchase@gmail.com", "grrapport@gmail.com", email_text)
+        with open('bets_notified.json', 'w') as file:
+            file.write(jsonpickle.encode(notified))
+            file.close()
+    except Exception as e:
+        print(e)
+
+
 
 
 

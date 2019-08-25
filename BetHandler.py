@@ -50,7 +50,7 @@ class BetToMake:
         return self.perceived_adv < other.perceived_adv
 
     def __eq__(self, other):
-        return self.date == other.date and self.home_team == other.home_team
+        return self.game_id == other.game_id
 
     def output(self):
         outstring = ""
