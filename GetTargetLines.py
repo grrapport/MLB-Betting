@@ -114,8 +114,6 @@ for bet in sort_bets:
         recommended_bets += 1
         email_text += bet.output()+"\n"
 
-with open('email.txt') as txt:
-    test = txt
 if recommended_bets > 0:
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.connect('smtp.gmail.com', 587)
