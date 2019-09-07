@@ -127,6 +127,12 @@ class GameOdds:
                     best_odd = odd
         return best_odd
 
+    def get_odd_by_bookmaker(self, book_name):
+        for odd in self.odds_by_bookmaker:
+            if book_name == odd.bookmaker:
+                return odd
+        raise Exception("No book with name "+book_name + " for this game")
+
     def output(self):
         return self.date + "  " + self.home_team + ":" + str(self.home_team_current_odds_avg)+"  Opened at "+str(self.home_team_opening_odds_avg) + "  " + str(self.home_team_imp_prob_current) + "     " + self.away_team + ":" + str(self.away_team_current_odds_avg) + "  " + str(self.away_team_imp_prob_current)+"  opened at: "+str(self.away_team_opening_odds_avg)
 
