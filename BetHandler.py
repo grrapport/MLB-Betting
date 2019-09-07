@@ -54,7 +54,7 @@ class BetToMake:
 
     def output(self):
         outstring = ""
-        outstring += str(self.date) +"  "
+        outstring += str(self.date) + "  "
         outstring += self.game_id+"  "
         if self.home:
             outstring += self.home_team+" over "+self.away_team
