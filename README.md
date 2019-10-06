@@ -14,7 +14,7 @@ The following packages are dependencies for this project, and can be installed w
 # What does what?
 TestScraper.py - scraps odds off oddsportal, runs on whatever season you specify in the script. saves a json of GameOdds using jsonpickle, which you can rehydrate later
 
-ModelTester.py - simulates the outcome of your bets and games. Right now it just runs off the fivethirtyeight.com prediction model
+ModelTester.py - simulates the outcome of your bets and games. Right now it just runs off the fivethirtyeight.com prediction model. There is a branch that only uses Pinnacle odds, which better simulates things if you only have one out. It wouldn't be difficult to change it to incorporate more outs, or the specific ones you want to use.
 
 GetTargetLines.py - Gets the lines you should be looking for to bet for the next days slate of games. This is based on the lines available at Bookmaker.eu. You can change the advantage you're looking by editing the script. I recommend 7.5% for optimizing sharpness on the lines, but really, you will bet on around 2.5% of games using that strategy. You can go as low as 5% and be sharp, but not as often. Historically, you can make a lot of money at 3.5% as long as bet sizing is proportional. Script will also send an email with the games to bet on and other info.
 
