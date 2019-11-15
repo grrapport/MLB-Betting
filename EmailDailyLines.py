@@ -43,6 +43,6 @@ server.ehlo()
 server.starttls()
 server.login("actionchase@gmail.com", "lnkyaliduvshwicn")
 try:
-    server.sendmail("actionchase@gmail.com", "grrapport@gmail.com", email_text)
+    server.sendmail("actionchase@gmail.com", "", email_text)
 except Exception as e:
     print(e)
