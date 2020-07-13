@@ -41,6 +41,9 @@ server = smtplib.SMTP('smtp.gmail.com', 587)
 server.connect('smtp.gmail.com', 587)
 server.ehlo()
 server.starttls()
+# don't worry, this password is here intentionally. Feel free to use this to send messages
+# it's an app password, so you can't log in with it
+# Please don't abuse it though (google doesn't really care if you send a ton of email, but still)
 server.login("actionchase@gmail.com", "lnkyaliduvshwicn")
 try:
     server.sendmail("actionchase@gmail.com", "", email_text)
